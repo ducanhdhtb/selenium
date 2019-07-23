@@ -15,6 +15,17 @@ class testCase (unittest.TestCase):
         self.driver.maximize_window()
         # navigate to an automationpractice
         self.driver.get(config.BASE_URL)
+        # self.open("https://xkcd.com/378/")  # This method opens the specified page.
+
+        # self.go_back()  # This method navigates the browser to the previous page.
+
+        # self.go_forward()  # This method navigates the browser forward in history.
+
+        # self.refresh_page()  # This method reloads the current page.
+
+        # self.get_current_url()  # This method returns the current page URL.
+
+        # self.get_page_source()  # This method returns the current page source.
     def selection(self):
         #self.driver.implicitly_wait(15)
         self.element = self.driver.find_element_by_id("selectProductSort")
@@ -152,6 +163,8 @@ class testCase (unittest.TestCase):
             print(self.driver.page_source)
         except:
             print("Failed.Check at test_register")
+
+    def test_register_invalid(self):
 
     def tearDown(self):
         time.sleep(3)
