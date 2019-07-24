@@ -77,7 +77,7 @@ class testCase (unittest.TestCase):
         #self.assertIn(self.key_search,self.driver.title)
         self.selection()
 
-    def test_register_valid(self):
+    #def test_register_valid(self):
         # Navigate to register
         self.driver.find_element_by_class_name("login").click()
         # textbox input
@@ -138,7 +138,7 @@ class testCase (unittest.TestCase):
         #homepage.sign_out()
         print("test complete!")
      
-    def test_login(self):
+    def _test_login(self):
         driver = self.driver
         self.driver.find_element_by_class_name("login").click()
         login = Login(driver)
@@ -148,6 +148,26 @@ class testCase (unittest.TestCase):
         time.sleep(15)
         print("test login pass")
 
+    #def test_login_invalid_email(self):
+        driver = self.driver
+        self.driver.find_element_by_class_name("login").click()
+        login = Login(driver)
+        login.enter_email(config.EMAIL_LOGIN_FAILED)        
+        login.click_login()
+        #message = driver.find_element_by_xpath("//li[contains(text(),'Invalid email address.')]").text
+        message = login.get_text_from_warning_email()
+        self.assertEqual(message, "Invalid email address.")  
+
+    def test_login_invalid_password(self):
+        driver = self.driver
+        self.driver.find_element_by_class_name("login").click()
+        login = Login(driver)
+        login.enter_email(config.EMAIL_LOGIN)
+        login.enter_pssword(config.PASSWORD_LOGIN_FAILED)        
+        login.click_login()
+        #message = driver.find_element_by_xpath("//li[contains(text(),'Invalid email address.')]").text
+        login.get_text_from_warning_password("Invalid password12.")
+        
 
     def tearDown(self):
         time.sleep(3)

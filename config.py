@@ -27,4 +27,6 @@ CUSTOMER_ALIAS  = "thanks best!"
 # Test login
 EMAIL_LOGIN = "anhndsmartit@gmail.com"
 PASSWORD_LOGIN = "ducanh123"
+EMAIL_LOGIN_FAILED = "anhndsmartit"
+PASSWORD_LOGIN_FAILED = "123"
 
