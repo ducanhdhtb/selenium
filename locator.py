@@ -19,3 +19,4 @@ class Locator():
     customer_phone_mobile_textbox_id = "phone_mobile"
     customer_alias_textbox_id = "alias"
     customer_gender_textbox_id = "id_gender1"
+    

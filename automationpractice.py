@@ -9,6 +9,7 @@ from RegisterPage import RegisterPages
 from homepage import HomePage
 from login import Login
 from locator import Locator
+import HtmlTestRunner
 
 
 class testCase (unittest.TestCase):
@@ -77,7 +78,7 @@ class testCase (unittest.TestCase):
         #self.assertIn(self.key_search,self.driver.title)
         self.selection()
 
-    #def test_register_valid(self):
+    def test_register_valid(self):
         # Navigate to register
         self.driver.find_element_by_class_name("login").click()
         # textbox input
@@ -138,7 +139,7 @@ class testCase (unittest.TestCase):
         #homepage.sign_out()
         print("test complete!")
      
-    def _test_login(self):
+    def test_login(self):
         driver = self.driver
         self.driver.find_element_by_class_name("login").click()
         login = Login(driver)
@@ -148,7 +149,7 @@ class testCase (unittest.TestCase):
         time.sleep(15)
         print("test login pass")
 
-    #def test_login_invalid_email(self):
+    def test_login_invalid_email(self):
         driver = self.driver
         self.driver.find_element_by_class_name("login").click()
         login = Login(driver)
@@ -166,13 +167,20 @@ class testCase (unittest.TestCase):
         login.enter_pssword(config.PASSWORD_LOGIN_FAILED)        
         login.click_login()
         #message = driver.find_element_by_xpath("//li[contains(text(),'Invalid email address.')]").text
-        login.get_text_from_warning_password("Invalid password12.")
+        login.get_text_from_warning_password("Invalid password.")
         
+    def test_login_invalid(self):
+        driver = self.driver
+        self.driver.find_element_by_class_name("login").click()
+        login = Login(driver)
+        login.enter_email(config.EMAIL_LOGIN_FAILED) 
+        login.enter_pssword(config.PASSWORD_LOGIN_FAILED) 
+        login.click_login()
 
     def tearDown(self):
         time.sleep(3)
         self.driver.quit()
-
+      
 
 if __name__ == "__main__":
-    unittest.main()
+    unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner(output='C:/Users/anhnd/Desktop/automationpractice/reports'))
