@@ -1,21 +1,22 @@
+from locator import Locator
 class RegisterPages():
     def __init__(self, driver):
         self.driver = driver
-        self.customer_firstname_textbox_id = "customer_firstname"
-        self.customer_lastname_textbox_id = "customer_lastname"
-        self.customer_password_textbox_id = "passwd"
-        self.firstname_textbox_id = "firstname"
-        self.lastname_textbox_id = "lastname"
-        self.customer_company_textbox_id = "company"
-        self.customer_address1_textbox_id = "address1"
-        self.customer_address2_textbox_id = "address2"
-        self.customer_city_textbox_id = "city"
-        self.customer_postcode_textbox_id = "postcode"
-        self.customer_infor_textbox_id = "other"
-        self.customer_phone_textbox_id = "phone"
-        self.customer_phone_mobile_textbox_id = "phone_mobile"
-        self.customer_alias_textbox_id = "alias"
-        self.customer_gender_textbox_id = "id_gender1"
+        self.customer_firstname_textbox_id = Locator.customer_firstname_textbox_id
+        self.customer_lastname_textbox_id = Locator.customer_lastname_textbox_id
+        self.customer_password_textbox_id = Locator.customer_password_textbox_id
+        self.firstname_textbox_id = Locator.firstname_textbox_id
+        self.lastname_textbox_id = Locator.lastname_textbox_id
+        self.customer_company_textbox_id = Locator.customer_company_textbox_id
+        self.customer_address1_textbox_id = Locator.customer_address1_textbox_id
+        self.customer_address2_textbox_id = Locator.customer_address2_textbox_id
+        self.customer_city_textbox_id = Locator.customer_city_textbox_id
+        self.customer_postcode_textbox_id = Locator.customer_postcode_textbox_id
+        self.customer_infor_textbox_id = Locator.customer_infor_textbox_id
+        self.customer_phone_textbox_id = Locator.customer_phone_textbox_id
+        self.customer_phone_mobile_textbox_id = Locator.customer_phone_mobile_textbox_id
+        self.customer_alias_textbox_id = Locator.customer_alias_textbox_id
+        self.customer_gender_textbox_id = Locator.customer_gender_textbox_id
 
     def enter_firstname(self, username):
         self.driver.find_element_by_id(
@@ -95,5 +96,9 @@ class RegisterPages():
 
     def enter_gender(self):
         self.driver.find_element_by_id(self.customer_gender_textbox_id).click()
+
+    def check_invalid_firstname(self):
+        test = self.driver.find_element_by_id(self.customer_firstname_textbox_id).text
+        return test
         
 

@@ -7,6 +7,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.expected_conditions import staleness_of
 from RegisterPage import RegisterPages
 from homepage import HomePage
+from login import Login
+from locator import Locator
 
 
 class testCase (unittest.TestCase):
@@ -18,21 +20,15 @@ class testCase (unittest.TestCase):
         # navigate to an automationpractice
         self.driver.get(config.BASE_URL)
         # self.open("https://xkcd.com/378/")  # This method opens the specified page.
-
         # self.go_back()  # This method navigates the browser to the previous page.
-
         # self.go_forward()  # This method navigates the browser forward in history.
-
         # self.refresh_page()  # This method reloads the current page.
-
         # self.get_current_url()  # This method returns the current page URL.
-
         # self.get_page_source()  # This method returns the current page source.
     def selection(self):
         #self.driver.implicitly_wait(15)
         self.element = self.driver.find_element_by_id("selectProductSort")
         self.drp = Select(self.element)
-
         # select by visible text
         #self.drp.select_by_visible_text("Price: Lowest first") #lowest price
         number_options = len(self.drp.options)
@@ -64,7 +60,7 @@ class testCase (unittest.TestCase):
         # get the search textbox
         self.searchField = self.driver.find_element_by_name("search_query")
         if self.searchField.is_displayed():
-            print("Da hien thi search box")
+            print("Checkbox passed")
         # enter search keyword and submit
         self.key_search = "Blouse"
         self.searchField.send_keys(self.key_search)
@@ -116,8 +112,7 @@ class testCase (unittest.TestCase):
         self.number_options_state = len(self.drp_state.options)
         print("number of state oftions is : ", self.number_options_state)
         for i in range(self.number_options_state):
-            self.selectbox_state = self.driver.find_element_by_id(
-                "id_state")
+            self.selectbox_state = self.driver.find_element_by_id("id_state")
             self.drp_state = Select(self.selectbox_state)  # dropdown
             self.drp_state.select_by_index(i)  # Price highest
 
@@ -133,13 +128,27 @@ class testCase (unittest.TestCase):
         self.years = self.driver.find_element_by_id("years")
         self.years_select = Select(self.years)
         self.years_select.select_by_index(20)
+        register.check_invalid_firstname()
         #submit form
         homepage = HomePage(driver)
+        
         homepage.register()
         time.sleep(5)
-        homepage.sign_out()
+        
+        #homepage.sign_out()
         print("test complete!")
      
+    def test_login(self):
+        driver = self.driver
+        self.driver.find_element_by_class_name("login").click()
+        login = Login(driver)
+        login.enter_email(config.EMAIL_LOGIN)
+        login.enter_pssword(config.PASSWORD_LOGIN)
+        login.click_login()
+        time.sleep(15)
+        print("test login pass")
+
+
     def tearDown(self):
         time.sleep(3)
         self.driver.quit()
