@@ -1,10 +1,12 @@
 from selenium import webdriver
 import time
+import config
 import unittest
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.expected_conditions import staleness_of
-import config
+from RegisterPage import RegisterPages
+from homepage import HomePage
 
 
 class testCase (unittest.TestCase):
@@ -57,10 +59,12 @@ class testCase (unittest.TestCase):
         # for option in self.all_options:
         #     print(option.text)
 
-    def test_search_by_text(self):
+    def _test_search_by_text(self):
         time.sleep(2)
         # get the search textbox
         self.searchField = self.driver.find_element_by_name("search_query")
+        if self.searchField.is_displayed():
+            print("Da hien thi search box")
         # enter search keyword and submit
         self.key_search = "Blouse"
         self.searchField.send_keys(self.key_search)
@@ -81,91 +85,61 @@ class testCase (unittest.TestCase):
         # Navigate to register
         self.driver.find_element_by_class_name("login").click()
         # textbox input
-        self.driver.find_element_by_id("email_create").send_keys(config.CUSTOMER_EMAIL)
+        self.driver.find_element_by_id(
+            "email_create").send_keys(config.CUSTOMER_EMAIL)
         self.driver.find_element_by_id("SubmitCreate").click()
         time.sleep(3)
-        try:
-            # Workking with textbox
-            customer_firstname = self.driver.find_element_by_id(
-                "customer_firstname")
-            customer_firstname.clear()
-            customer_firstname.send_keys(config.CUSTOMER_FIRSTNAME)
+        driver = self.driver
+        # Instance of class RegisterPages
+        register = RegisterPages(driver)
 
-            customer_lastname = self.driver.find_element_by_id(
-                "customer_lastname")
-            customer_lastname.send_keys(config.CUSTOMER_LASTNAME)
-
-            customer_password = self.driver.find_element_by_id("passwd")
-            customer_password.send_keys(config.CUSTOMER_PASSWORD)
-
-            firstname = self.driver.find_element_by_id("firstname")
-            firstname.send_keys(config.FIRSTNAME)
-
-            lastname = self.driver.find_element_by_id("lastname")
-            lastname.send_keys(config.LASTNAME)
-
-            company = self.driver.find_element_by_id("company")
-            company.send_keys(config.COMPANY)
-
-            address1 = self.driver.find_element_by_id("address1")
-            address1.send_keys(config.ADDRESS1)
-
-            address2 = self.driver.find_element_by_id("address2")
-            address2.send_keys(config.ADDRESS2)
-
-            city = self.driver.find_element_by_id("city")
-            city.send_keys(config.CITY)
-
-            postcode = self.driver.find_element_by_id("postcode")
-            postcode.send_keys(config.POSTCODE)
-
-            other = self.driver.find_element_by_id("other")
-            other.send_keys("More information was add at here....")
-
-            phone = self.driver.find_element_by_id("phone")
-            phone.send_keys("028 7108 7108")
-
-            phone_mobile = self.driver.find_element_by_id("phone_mobile")
-            phone_mobile.send_keys("09 42 42 88 34")
-
-            alias = self.driver.find_element_by_id("alias")
-            alias.send_keys("alias change here")
-            # working with selectbox state
+        register.enter_firstname(config.CUSTOMER_FIRSTNAME)
+        register.enter_lastname(config.CUSTOMER_LASTNAME)
+        register.enter_password(config.CUSTOMER_PASSWORD)
+        register.enter_fsname(config.CUSTOMER_FIRSTNAME)
+        register.enter_lname(config.CUSTOMER_LASTNAME)
+        register.enter_company(config.CUSTOMER_COMPANY)
+        register.enter_address1(config.CUSTOMER_COMPANY)
+        register.enter_address2(config.CUSTOMER_ADDRESS2)
+        register.enter_city(config.CUSTOMER_CITY)
+        register.enter_postcode(config.CUSTOMER_POSTCODE)
+        register.enter_information(config.CUSTOMER_INFOR)
+        register.enter_phone(config.CUSTOMER_PHONE)
+        register.enter_phone_mobile(config.CUSTOMER_PHONE_MOBILE)
+        register.enter_alias(config.CUSTOMER_ALIAS)
+        register.enter_gender()
+        # working with selectbox state
+        self.selectbox_state = self.driver.find_element_by_id(
+            "id_state")  # choose selexbox with id = id_state
+        self.drp_state = Select(self.selectbox_state)  # dropdown
+        self.drp_state.select_by_index(4)
+        self.number_options_state = len(self.drp_state.options)
+        print("number of state oftions is : ", self.number_options_state)
+        for i in range(self.number_options_state):
             self.selectbox_state = self.driver.find_element_by_id(
-                "id_state")  # choose selexbox with id = id_state
+                "id_state")
             self.drp_state = Select(self.selectbox_state)  # dropdown
-            self.drp_state.select_by_index(4)
-            self.number_options_state = len(self.drp_state.options)
-            print("number of state oftions is : ", self.number_options_state)
-            for i in range(self.number_options_state):
-                self.selectbox_state = self.driver.find_element_by_id(
-                    "id_state")
-                self.drp_state = Select(self.selectbox_state)  # dropdown
-                self.drp_state.select_by_index(i)  # Price highest
+            self.drp_state.select_by_index(i)  # Price highest
 
-            # Working  with day month year select
-            self.days = self.driver.find_element_by_id("days")
-            self.day_select = Select(self.days)
-            self.day_select.select_by_index(1)
+        # Working  with day month year select
+        self.days = self.driver.find_element_by_id("days")
+        self.day_select = Select(self.days)
+        self.day_select.select_by_index(1)
 
-            self.months = self.driver.find_element_by_id("months")
-            self.months_select = Select(self.months)
-            self.months_select.select_by_index(1)
+        self.months = self.driver.find_element_by_id("months")
+        self.months_select = Select(self.months)
+        self.months_select.select_by_index(1)
 
-            self.years = self.driver.find_element_by_id("years")
-            self.years_select = Select(self.years)
-            self.years_select.select_by_index(20)
-            # working with radio button
-            self.driver.find_element_by_id("id_gender1").click()
-            #submit form
-            self.driver.find_element_by_id("submitAccount").click()
-            time.sleep(10)
-            print(self.driver.page_source)
-        except:
-            print("Failed.Check at test_register")
-
-    def test_register_invalid(self):
-
+        self.years = self.driver.find_element_by_id("years")
+        self.years_select = Select(self.years)
+        self.years_select.select_by_index(20)
+        #submit form
+        homepage = HomePage(driver)
+        homepage.register()
+        time.sleep(5)
+        homepage.sign_out()
+        print("test complete!")
+     
     def tearDown(self):
         time.sleep(3)
         self.driver.quit()
